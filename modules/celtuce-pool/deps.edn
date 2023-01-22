@@ -1,0 +1,4 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure              {:mvn/version "1.10.0"}
+        celtuce/celtuce-core             {:local/root "../celtuce-core"}
+        org.apache.commons/commons-pool2 {:mvn/version "2.9.0"}}}

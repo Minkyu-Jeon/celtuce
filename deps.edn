@@ -1,0 +1,8 @@
+{:paths ["src" "resources" "classes"]
+ :deps {org.clojure/clojure      {:mvn/version "1.10.0"}
+        celtuce/celtuce-core     {:local/root "modules/celtuce-core"}
+        celtuce/celtuce-pool     {:local/root "modules/celtuce-pool"}
+        celtuce/celtuce-manifold {:local/root "modules/celtuce-manifold"}}
+ :mvn/repos
+ {"central" {:url "https://repo1.maven.org/maven2/"}
+  "clojars" {:url "https://clojars.org/repo"}}}

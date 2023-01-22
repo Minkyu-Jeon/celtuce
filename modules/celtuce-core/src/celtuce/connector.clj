@@ -94,13 +94,13 @@
     ;; provider setup
     (contains? opts :provider)
     (cond->
-        (= :open-ssl (:provider opts)) (.openSslProvider)
-        (= :jdk      (:provider opts)) (.jdkSslProvider))
+     (= :open-ssl (:provider opts)) (.openSslProvider)
+     (= :jdk      (:provider opts)) (.jdkSslProvider))
     ;; keystore setup
     (contains? opts :keystore)
     (cond->
-        (and (contains? (:keystore opts) :file)
-             (contains? (:keystore opts) :password))
+     (and (contains? (:keystore opts) :file)
+          (contains? (:keystore opts) :password))
       (.keystore (io/as-file (-> opts :keystore :file))
                  (chars      (-> opts :keystore :password)))
       (contains? (:keystore opts) :file)
@@ -114,8 +114,8 @@
     ;; truststore setup
     (contains? opts :truststore)
     (cond->
-        (and (contains? (:truststore opts) :file)
-             (contains? (:truststore opts) :password))
+     (and (contains? (:truststore opts) :file)
+          (contains? (:truststore opts) :password))
       (.truststore (io/as-file (-> opts :truststore :file))
                    (-> opts :truststore :password str))
       (contains? (:truststore opts) :file)
@@ -164,7 +164,9 @@
      (contains? opts :timeout-options)
      (.timeoutOptions (timeout-options (:timeout-options opts)))
      (contains? opts :ssl-options)
-     (.sslOptions (ssl-options (:ssl-options opts))))))
+     (.sslOptions (ssl-options (:ssl-options opts)))
+     (contains? opts :publish-on-scheduler)
+     (.publishOnScheduler (:publish-on-scheduler opts)))))
 
 (defn- ^ClusterTopologyRefreshOptions cluster-topo-refresh-options
   "Internal helper to build ClusterTopologyRefreshOptions,
@@ -183,7 +185,7 @@
     (.dynamicRefreshSources (:dynamic-refresh-sources opts))
     (contains? opts :enable-adaptive-refresh-trigger)
     (cond->
-        (= :all (:enable-adaptive-refresh-trigger opts))
+     (= :all (:enable-adaptive-refresh-trigger opts))
       (.enableAllAdaptiveRefreshTriggers)
       (set? (:enable-adaptive-refresh-trigger opts))
       (.enableAdaptiveRefreshTrigger
@@ -242,12 +244,12 @@
 ;;
 
 (defrecord RedisServer
-    [^RedisClient redis-client
-     client-options
-     ^StatefulRedisConnection stateful-conn
-     conn-options
-     ^RedisCodec codec
-     ^RedisCommandFactory dynamic-factory]
+           [^RedisClient redis-client
+            client-options
+            ^StatefulRedisConnection stateful-conn
+            conn-options
+            ^RedisCodec codec
+            ^RedisCommandFactory dynamic-factory]
   RedisConnector
   (commands-sync [_]
     (locking clojure.lang.RT/REQUIRE_LOCK
@@ -272,8 +274,7 @@
      conn-unit :unit ^ClientResources
      client-resources :client-resources
      :or
-     {auto-flush true}
-     } :conn-options
+     {auto-flush true}} :conn-options
     :or
     {codec (nippy-codec)
      client-options {}}}]
@@ -300,12 +301,12 @@
 ;;
 
 (defrecord RedisCluster
-    [^RedisClusterClient redis-client
-     client-options
-     ^StatefulRedisClusterConnection stateful-conn
-     conn-options
-     ^RedisCodec codec
-     ^RedisCommandFactory dynamic-factory]
+           [^RedisClusterClient redis-client
+            client-options
+            ^StatefulRedisClusterConnection stateful-conn
+            conn-options
+            ^RedisCodec codec
+            ^RedisCommandFactory dynamic-factory]
   RedisConnector
   (commands-sync [_]
     (locking clojure.lang.RT/REQUIRE_LOCK
@@ -330,8 +331,7 @@
      conn-unit :unit ^ClientResources
      client-resources :client-resources
      :or
-     {auto-flush true}
-     } :conn-options
+     {auto-flush true}} :conn-options
     :or
     {codec (nippy-codec)
      client-options {}}}]
@@ -363,7 +363,7 @@
   (add-listener! [this listener]))
 
 (defrecord RedisPubSub
-    [redis-client ^StatefulRedisPubSubConnection stateful-conn codec]
+           [redis-client ^StatefulRedisPubSubConnection stateful-conn codec]
   RedisConnector
   (commands-sync [_]
     (locking clojure.lang.RT/REQUIRE_LOCK

@@ -230,7 +230,9 @@
       (contains? options-map :nb-io-threads)
       (.ioThreadPoolSize (:nb-io-threads options-map))
       (contains? options-map :nb-worker-threads)
-      (.computationThreadPoolSize (:nb-worker-threads options-map)))
+      (.computationThreadPoolSize (:nb-worker-threads options-map))
+      (contains? options-map :event-executor-group)
+      (.eventExecutorGroup (:event-executor-group options-map)))
     (.build builder)))
 
 (defn destroy-client-resource
